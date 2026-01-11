@@ -21,7 +21,10 @@ export default function LoginPage() {
     try {
       const API_AUTH = process.env.NEXT_PUBLIC_API_AUTH || "https://auth-service-theta-two.vercel.app";
       
-      const res = await axios.post(`${API_AUTH}/auth/login`, form);
+      // --- PERBAIKAN DI SINI (Hapus /auth) ---
+      // Dulu: `${API_AUTH}/auth/login`
+      // Sekarang: `${API_AUTH}/login`
+      const res = await axios.post(`${API_AUTH}/login`, form);
       
       // Simpan token
       localStorage.setItem('token', res.data.token);
@@ -29,6 +32,7 @@ export default function LoginPage() {
       // Redirect Dashboard
       router.push('/dashboard');
     } catch (err) {
+      // Ambil pesan error spesifik dari backend jika ada
       setError(err.response?.data?.message || 'Login gagal. Periksa kredensial Anda.');
     } finally {
       setLoading(false);
